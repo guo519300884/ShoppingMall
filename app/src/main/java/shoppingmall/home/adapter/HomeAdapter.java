@@ -5,11 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.youth.banner.Banner;
+import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerClickListener;
+import com.youth.banner.loader.ImageLoader;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import shoppingmall.home.bean.HomeBean;
+import shoppingmall.home.utils.Constants;
 import shoppingmall.shoppingmall.R;
 
 /**
@@ -106,6 +115,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == BANNER) {
             return new BannerViewHolder(context, inflater.inflate(R.layout.banner_viewpager, null));
+        } else if (viewType == CHANNEL) {
+//            return new ChannelViewHoler(context, inflater.inflate(R.layout.channel_item, null));
         }
         return null;
     }
@@ -121,8 +132,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
         if (getItemViewType(position) == BANNER) {
             BannerViewHolder viewHolder = (BannerViewHolder) holder;
-
             viewHolder.setData(result.getBanner_info());
+        } else if (getItemViewType(position) == CHANNEL) {
 
         }
     }
@@ -130,17 +141,47 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {
         private final Context context;
-        public TextView tv_title;
+        private Banner banner;
 
         public BannerViewHolder(Context context, View itemView) {
             //当前布局回传给父类 父类无空参构造器  必须显示调用父类构造器 传view参数
             super(itemView);
             this.context = context;
-            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            banner = (Banner) itemView.findViewById(R.id.banner);
         }
 
         public void setData(List<HomeBean.ResultBean.BannerInfoBean> banner_info) {
-            tv_title.setText("6666666666666666666");
+
+            //数据已经得到  为banner设置数据
+            List<String> images = new ArrayList<>();
+            for (int i = 0; i < banner_info.size(); i++) {
+                images.add(Constants.BASE_URL_IMAGE + banner_info.get(i).getImage());
+            }
+
+            banner.setImages(images)
+                    .setImageLoader(new ImageLoader() {
+                        @Override
+                        public void displayImage(Context context, Object path, ImageView imageView) {
+                            //具体方法内容自己去选择，
+                            // 此方法是为了减少banner过多的依赖第三方包，
+                            // 所以将这个权限开放给使用者去选择
+                            Glide.with(context)
+                                    .load(path)
+                                    .crossFade()
+                                    .into(imageView);
+                        }
+                    }).start();
+
+            //设置banner变换样式
+            banner.setBannerAnimation(Transformer.Accordion);
+            //设置banner点击事件
+            banner.setOnBannerClickListener(new OnBannerClickListener() {
+                @Override
+                public void OnBannerClick(int position) {
+                    int bannerPosition = position - 1;
+                    Toast.makeText(context, "这是第" + bannerPosition, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
