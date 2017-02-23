@@ -81,7 +81,7 @@ public class HomeFragment extends BaseFragment {
         HomeBean homeBean = JSON.parseObject(response, HomeBean.class);
         Log.e("TAG", "HomeFragment processData()+++联网获取数据" + homeBean.getResult().getHot_info().get(1).getName());
         //设置适配器
-        adapter = new HomeAdapter();
+        adapter = new HomeAdapter(context, homeBean.getResult());
         rvHome.setAdapter(adapter);
         //设置布局管理器
         rvHome.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
