@@ -5,18 +5,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.Transformer;
-import com.youth.banner.listener.OnBannerClickListener;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import shoppingmall.home.bean.HomeBean;
 import shoppingmall.home.utils.Constants;
 import shoppingmall.shoppingmall.R;
@@ -67,6 +71,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     private final HomeBean.ResultBean result;
     private LayoutInflater inflater;
 
+
     public HomeAdapter(Context context, HomeBean.ResultBean result) {
         this.context = context;
         this.result = result;
@@ -81,17 +86,17 @@ public class HomeAdapter extends RecyclerView.Adapter {
      */
     @Override
     public int getItemViewType(int position) {
-        if (currentType == BANNER) {
+        if (position == BANNER) {
             currentType = BANNER;
-        } else if (currentType == CHANNEL) {
+        } else if (position == CHANNEL) {
             currentType = CHANNEL;
-        } else if (currentType == ACT) {
+        } else if (position == ACT) {
             currentType = ACT;
-        } else if (currentType == SECKILL) {
+        } else if (position == SECKILL) {
             currentType = SECKILL;
-        } else if (currentType == RECOMMEND) {
+        } else if (position == RECOMMEND) {
             currentType = RECOMMEND;
-        } else if (currentType == HOT) {
+        } else if (position == HOT) {
             currentType = HOT;
         }
         return currentType;
@@ -101,7 +106,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         //根据类型数量填写返回值
-        return 1;
+        return 2;
     }
 
     /**
@@ -116,7 +121,10 @@ public class HomeAdapter extends RecyclerView.Adapter {
         if (viewType == BANNER) {
             return new BannerViewHolder(context, inflater.inflate(R.layout.banner_viewpager, null));
         } else if (viewType == CHANNEL) {
-//            return new ChannelViewHoler(context, inflater.inflate(R.layout.channel_item, null));
+            return new ChannelViewHoler(context, inflater.inflate(R.layout.channel_item, null));
+        } else if (viewType == ACT) {
+//            return new ActViewHolder(context, inflater.inflate(R.layout.act_item, null));
+
         }
         return null;
     }
@@ -132,9 +140,15 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
         if (getItemViewType(position) == BANNER) {
             BannerViewHolder viewHolder = (BannerViewHolder) holder;
+
             viewHolder.setData(result.getBanner_info());
         } else if (getItemViewType(position) == CHANNEL) {
+            ChannelViewHoler channelViewHoler = (ChannelViewHoler) holder;
 
+            channelViewHoler.setData(result.getChannel_info());
+        } else if (getItemViewType(position) == ACT) {
+//            ActViewHolder actViewHolder = (ActViewHolder) holder;
+//            actViewHolder.setData(result.getAct_info());
         }
     }
 
@@ -173,15 +187,91 @@ public class HomeAdapter extends RecyclerView.Adapter {
                     }).start();
 
             //设置banner变换样式
-            banner.setBannerAnimation(Transformer.Accordion);
+//            banner.setBannerAnimation(Transformer.Accordion);
+//            banner.setBannerAnimation(Transformer.BackgroundToForeground);
+//            banner.setBannerAnimation(Transformer.CubeIn);
+//            banner.setBannerAnimation(Transformer.CubeOut);
+//            banner.setBannerAnimation(Transformer.Default);
+//            banner.setBannerAnimation(Transformer.DepthPage);
+//            banner.setBannerAnimation(Transformer.FlipHorizontal);
+            banner.setBannerAnimation(Transformer.FlipVertical);
+//            banner.setBannerAnimation(Transformer.ForegroundToBackground);
+//            banner.setBannerAnimation(Transformer.RotateDown);
+//            banner.setBannerAnimation(Transformer.RotateUp);
+//            banner.setBannerAnimation(Transformer.ScaleInOut);
+//            banner.setBannerAnimation(Transformer.Stack);
+//            banner.setBannerAnimation(Transformer.Tablet);
+//            banner.setBannerAnimation(Transformer.ZoomIn);
+//            banner.setBannerAnimation(Transformer.ZoomOut);
+//            banner.setBannerAnimation(Transformer.ZoomOutSlide);
+
             //设置banner点击事件
-            banner.setOnBannerClickListener(new OnBannerClickListener() {
+//            banner.setOnBannerClickListener(new OnBannerClickListener() {
+//                @Override
+//                public void OnBannerClick(int position) {
+//                    int bannerPosition = position - 1;
+//                    Toast.makeText(context, "这是第" + bannerPosition, Toast.LENGTH_SHORT).show();
+//                }
+//            });
+            banner.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(int position) {
-                    int bannerPosition = position - 1;
-                    Toast.makeText(context, "这是第" + bannerPosition, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "这是第" + position, Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
+
+    class ChannelViewHoler extends RecyclerView.ViewHolder {
+
+        private final Context context;
+        @InjectView(R.id.gv_channel)
+        GridView gvChannel;
+        private ChannelAdapter channelAdapter;
+
+        public ChannelViewHoler(Context context, View itemView) {
+            super(itemView);
+            ButterKnife.inject(this, itemView);
+            this.context = context;
+        }
+
+        public void setData(List<HomeBean.ResultBean.ChannelInfoBean> channel_info) {
+
+            //为 GridView设置适配器
+            channelAdapter = new ChannelAdapter(context, channel_info);
+            gvChannel.setAdapter(channelAdapter);
+
+            //设置GridVie的item点击事件
+            gvChannel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(context, "点我我就是：" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+//    private class ActViewHolder extends RecyclerView.ViewHolder {
+//
+//        private final Context context;
+//        @InjectView(R.id.vp_act)
+//        ViewPager vpAct;
+//        private ActAdapter actAdapter;
+//
+//        public ActViewHolder(Context context, View itemView) {
+//            super(itemView);
+//            ButterKnife.inject(this, itemView);
+//            this.context = context;
+//
+//        }
+//
+//        public void setData(List<HomeBean.ResultBean.ActInfoBean> act_info) {
+//            //设置viewPager适配器
+//            actAdapter = new ActAdapter(context, act_info);
+//
+//            vpAct.setAdapter(actAdapter);
+//            //设置点击事件
+//
+//        }
+//    }
 }
