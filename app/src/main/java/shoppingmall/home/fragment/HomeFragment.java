@@ -1,15 +1,25 @@
 package shoppingmall.home.fragment;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import okhttp3.Call;
 import shoppingmall.base.BaseFragment;
+import shoppingmall.home.adapter.HomeAdapter;
+import shoppingmall.home.bean.HomeBean;
+import shoppingmall.home.utils.Constants;
 import shoppingmall.shoppingmall.R;
 
 /**
@@ -26,8 +36,11 @@ public class HomeFragment extends BaseFragment {
     RecyclerView rvHome;
     @InjectView(R.id.ib_top)
     ImageButton ibTop;
+    @InjectView(R.id.tv_news)
+    TextView tvNews;
 
     private View view;
+    private HomeAdapter adapter;
 
     @Override
     public View initView() {
@@ -39,9 +52,43 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
+        getDataFromNet();
     }
 
-    @OnClick({R.id.tv_search, R.id.tv_scan, R.id.ib_top})
+    public void getDataFromNet() {
+        OkHttpUtils
+                .get()
+                .url(Constants.HOME_URL)
+                .id(100)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("TAG", "HomeFragment onError() 联网失败：" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("TAG", "HomeFragment onResponse()联网成功");
+                        processData(response);
+                    }
+                });
+    }
+
+    //json解析方式有三种：1.手动解析json；2.Gson解析；3.fastjson解析
+
+    private void processData(String response) {
+        HomeBean homeBean = JSON.parseObject(response, HomeBean.class);
+        Log.e("TAG", "HomeFragment processData()+++联网获取数据" + homeBean.getResult().getHot_info().get(1).getName());
+        //设置适配器
+        adapter = new HomeAdapter();
+        rvHome.setAdapter(adapter);
+        //设置布局管理器
+        rvHome.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+    }
+
+
+    @OnClick({R.id.tv_search, R.id.tv_scan, R.id.ib_top, R.id.tv_news})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_search:
@@ -49,6 +96,9 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.tv_scan:
                 Toast.makeText(context, "扫死你", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_news:
+                Toast.makeText(context, "来消息了", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ib_top:
                 rvHome.scrollToPosition(0);
