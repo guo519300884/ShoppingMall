@@ -29,7 +29,7 @@ public class CartFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        Log.e("TAG", "HomeFragment initData() + 2222222222222");
-        textView.setText("分类");
+        Log.e("TAG", "HomeFragment initData() + 4444444444444");
+        textView.setText("购物车");
     }
 }

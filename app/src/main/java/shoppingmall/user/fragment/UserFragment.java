@@ -29,7 +29,7 @@ public class UserFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        Log.e("TAG", "HomeFragment initData() + 2222222222222");
-        textView.setText("分类");
+        Log.e("TAG", "HomeFragment initData() + 55555555555555555");
+        textView.setText("个人中心");
     }
 }

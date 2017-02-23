@@ -29,7 +29,7 @@ public class CommunityFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        Log.e("TAG", "HomeFragment initData() + 2222222222222");
-        textView.setText("分类");
+        Log.e("TAG", "HomeFragment initData() + 333333333333");
+        textView.setText("发现");
     }
 }
