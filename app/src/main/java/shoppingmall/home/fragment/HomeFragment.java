@@ -1,6 +1,6 @@
 package shoppingmall.home.fragment;
 
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -84,7 +84,21 @@ public class HomeFragment extends BaseFragment {
         adapter = new HomeAdapter(context, homeBean.getResult());
         rvHome.setAdapter(adapter);
         //设置布局管理器
-        rvHome.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+//        rvHome.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 1);
+        rvHome.setLayoutManager(gridLayoutManager);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position >= 4) {
+                    ibTop.setVisibility(View.VISIBLE);
+                } else {
+                    ibTop.setVisibility(View.GONE);
+                }
+                return 1;
+            }
+        });
+
     }
 
 
