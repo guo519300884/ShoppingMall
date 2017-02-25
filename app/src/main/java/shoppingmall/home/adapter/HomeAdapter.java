@@ -116,8 +116,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         //根据类型数量填写返回值
-        return 4
-                ;
+        return 5;
     }
 
     /**
@@ -139,9 +138,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
             return new SeckillViewHolder(context, inflater.inflate(R.layout.seckill_item, null));
         } else if (viewType == RECOMMEND) {
             return new RecommendViewHolder(context, inflater.inflate(R.layout.recommend_item, null));
-
         } else if (viewType == HOT) {
-
+            return new HotViewHolder(context, inflater.inflate(R.layout.hot_item, null));
         }
         return null;
     }
@@ -386,7 +384,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class RecommendViewHolder extends RecyclerView.ViewHolder {
+    class RecommendViewHolder extends RecyclerView.ViewHolder {
         private final Context context;
         @InjectView(R.id.tv_more_recommend)
         TextView tvMoreRecommend;
@@ -401,8 +399,29 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
         public void setData(List<HomeBean.ResultBean.RecommendInfoBean> recommend_info) {
 
-//            new RecommendAdapter(context, recommend_info);
-//            gvRecommend.setAdapter();
+            RecommendAdapter recommendAdapter = new RecommendAdapter(context, recommend_info);
+            gvRecommend.setAdapter(recommendAdapter);
+            //设置点击事件
+            gvRecommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private class HotViewHolder extends RecyclerView.ViewHolder {
+        private final Context context;
+        @InjectView(R.id.tv_more_hot)
+        TextView tvMoreHot;
+        @InjectView(R.id.gv_hot)
+        GridView gvHot;
+
+        public HotViewHolder(Context context, View itemView) {
+            super(itemView);
+            ButterKnife.inject(this, itemView);
+            this.context = context;
         }
     }
 }
