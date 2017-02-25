@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="7dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_arrow_left_flash" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:text="今日闪购 距·结束" />
+
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/countdownview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:isHideTimeBackground="false"
+            app:isShowDay="false"
+            app:isShowHour="true"
+            app:isShowMillisecond="false"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:isShowTimeBgDivisionLine="false"
+            app:suffixGravity="center"
+            app:suffixTextColor="#000000"
+            app:suffixTextSize="14sp"
+            app:timeBgColor="#FF5000"
+            app:timeTextColor="#FFFFFF"
+            app:timeTextSize="14sp"
+            android:padding="2dp"
+            android:layout_marginLeft="10dp"
+            />
+
+
+        <!--<cn.iwgang.countdownview.CountdownView
+            android:id="@+id/countdownview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isHideTimeBackground="true"
+            app:isShowDay="true"
+            app:isShowHour="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:isShowMillisecond="true"
+            app:timeTextColor="#000000"
+            app:timeTextSize="22sp"
+            app:isTimeTextBold="true"
+            app:suffixGravity="bottom"
+            app:suffixTextColor="#000000"
+            app:suffixTextSize="12sp"
+            app:suffixHour="时"
+            app:suffixMinute="分"
+            app:suffixSecond="秒"
+            app:suffixMillisecond="毫秒" />-->
+
+        <TextView
+            android:id="@+id/tv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/home_arrow_right"
+            android:gravity="end"
+            android:text="查看更多" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_seckill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

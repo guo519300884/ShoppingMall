@@ -95,7 +95,7 @@ public class HomeFragment extends BaseFragment {
                 Toast.makeText(context, "搜索", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_scan:
-                Toast.makeText(context, "扫死你", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "扫呀", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_news:
                 Toast.makeText(context, "来消息了", Toast.LENGTH_SHORT).show();
