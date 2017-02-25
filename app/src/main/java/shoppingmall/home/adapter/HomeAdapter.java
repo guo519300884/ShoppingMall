@@ -31,6 +31,7 @@ import butterknife.InjectView;
 import cn.iwgang.countdownview.CountdownView;
 import shoppingmall.home.bean.HomeBean;
 import shoppingmall.home.utils.Constants;
+import shoppingmall.home.view.MyGridView;
 import shoppingmall.shoppingmall.R;
 
 /**
@@ -116,7 +117,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         //根据类型数量填写返回值
-        return 5;
+        return 6;
     }
 
     /**
@@ -170,10 +171,12 @@ public class HomeAdapter extends RecyclerView.Adapter {
             //seckill绑定数据
             seckillViewHolder.setData(result.getSeckill_info());
         } else if (getItemViewType(position) == RECOMMEND) {
+            //recommend绑定数据
             RecommendViewHolder recommendViewHolder = (RecommendViewHolder) holder;
             recommendViewHolder.setData(result.getRecommend_info());
         } else if (getItemViewType(position) == HOT) {
-
+            HotViewHolder hotViewHolder = (HotViewHolder) holder;
+            hotViewHolder.setData(result.getHot_info());
         }
     }
 
@@ -411,17 +414,31 @@ public class HomeAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private class HotViewHolder extends RecyclerView.ViewHolder {
+    class HotViewHolder extends RecyclerView.ViewHolder {
         private final Context context;
         @InjectView(R.id.tv_more_hot)
         TextView tvMoreHot;
         @InjectView(R.id.gv_hot)
-        GridView gvHot;
+        MyGridView gvHot;
+
 
         public HotViewHolder(Context context, View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
             this.context = context;
         }
+
+        public void setData(List<HomeBean.ResultBean.HotInfoBean> hot_info) {
+            HotAdapter hotAdapter = new HotAdapter(context, hot_info);
+            gvHot.setAdapter(hotAdapter);
+
+            gvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
+
 }
