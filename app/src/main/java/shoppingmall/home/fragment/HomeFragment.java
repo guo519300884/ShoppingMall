@@ -85,8 +85,10 @@ public class HomeFragment extends BaseFragment {
         rvHome.setAdapter(adapter);
         //设置布局管理器
 //        rvHome.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        //gridView的布局管理器  线性的管理器没有回滚到顶部的点击事件
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 1);
         rvHome.setLayoutManager(gridLayoutManager);
+
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {

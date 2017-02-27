@@ -1,6 +1,7 @@
 package shoppingmall.home.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +30,8 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.iwgang.countdownview.CountdownView;
+import shoppingmall.home.activity.GoodsInfoActivity;
+import shoppingmall.home.bean.GoodsBean;
 import shoppingmall.home.bean.HomeBean;
 import shoppingmall.home.utils.Constants;
 import shoppingmall.home.view.MyGridView;
@@ -43,10 +46,12 @@ public class HomeAdapter extends RecyclerView.Adapter {
     /**
      * 六种类型
      */
+
     /**
      * 横幅广告
      */
     public static final int BANNER = 0;
+
     /**
      * 频道
      */
@@ -56,7 +61,6 @@ public class HomeAdapter extends RecyclerView.Adapter {
      * 活动
      */
     public static final int ACT = 2;
-
     /**
      * 秒杀
      */
@@ -75,6 +79,10 @@ public class HomeAdapter extends RecyclerView.Adapter {
      * 当前类型
      */
     public int currentType = BANNER;
+
+
+    public static final String KEY = "000";
+    public static final String INT = "666";
 
     private final Context context;
     private final HomeBean.ResultBean result;
@@ -192,7 +200,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
             banner = (Banner) itemView.findViewById(R.id.banner);
         }
 
-        public void setData(List<HomeBean.ResultBean.BannerInfoBean> banner_info) {
+        public void setData(final List<HomeBean.ResultBean.BannerInfoBean> banner_info) {
 
             //数据已经得到  为banner设置数据
             List<String> images = new ArrayList<>();
@@ -268,6 +276,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
             banner.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(int position) {
+                    Intent intent = new Intent(context, GoodsInfoActivity.class);
+                    context.startActivity(intent);
                     Toast.makeText(context, "这是第" + position, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -388,6 +398,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     }
 
     class RecommendViewHolder extends RecyclerView.ViewHolder {
+
         private final Context context;
         @InjectView(R.id.tv_more_recommend)
         TextView tvMoreRecommend;
@@ -400,7 +411,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
             this.context = context;
         }
 
-        public void setData(List<HomeBean.ResultBean.RecommendInfoBean> recommend_info) {
+        public void setData(final List<HomeBean.ResultBean.RecommendInfoBean> recommend_info) {
 
             RecommendAdapter recommendAdapter = new RecommendAdapter(context, recommend_info);
             gvRecommend.setAdapter(recommendAdapter);
@@ -409,6 +420,18 @@ public class HomeAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+
+                    HomeBean.ResultBean.RecommendInfoBean recommendInfoBean = recommend_info.get(position);
+                    //传递数据
+                    GoodsBean goodsBean = new GoodsBean();
+                    goodsBean.setName(recommendInfoBean.getName());
+                    goodsBean.setCover_price(recommendInfoBean.getCover_price());
+                    goodsBean.setProduct_id(recommendInfoBean.getProduct_id());
+                    goodsBean.setFigure(recommendInfoBean.getFigure());
+
+                    Intent intent = new Intent(context, GoodsInfoActivity.class);
+                    intent.putExtra(INT, goodsBean);
+                    context.startActivity(intent);
                 }
             });
         }
