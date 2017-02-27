@@ -1,9 +1,13 @@
 package shoppingmall.home.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -12,11 +16,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import shoppingmall.home.adapter.HomeAdapter;
 import shoppingmall.home.bean.GoodsBean;
+import shoppingmall.home.utils.Constants;
 import shoppingmall.shoppingmall.R;
 
 public class GoodsInfoActivity extends AppCompatActivity {
@@ -61,6 +68,8 @@ public class GoodsInfoActivity extends AppCompatActivity {
     Button btnMore;
     @InjectView(R.id.ll_root)
     LinearLayout llRoot;
+    private GoodsBean goodsBean;
+    private WebSettings webSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,11 +94,64 @@ public class GoodsInfoActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        GoodsBean goodsBean = (GoodsBean) getIntent().getSerializableExtra(HomeAdapter.INT);
-        if (goodsBean != null) {
-            Toast.makeText(this, "嘿嘿嘿" + goodsBean.toString(), Toast.LENGTH_SHORT).show();
-        }
-        Toast.makeText(this, "没数据", Toast.LENGTH_SHORT).show();
+        goodsBean = (GoodsBean) getIntent().getSerializableExtra(HomeAdapter.GOODS_BEAN);
+
+        setData();
+//        if (goodsBean != null) {
+//            Toast.makeText(this, "嘿嘿嘿" + goodsBean.toString(), Toast.LENGTH_SHORT).show();
+//        }
+    }
+
+    private void setData() {
+        //设置图片
+        Glide.with(this)
+                .load(Constants.BASE_URL_IMAGE + goodsBean.getFigure())
+                .into(ivGoodInfoImage);
+        //设置名字
+        tvGoodInfoName.setText(goodsBean.getName());
+        //设置价格
+        tvGoodInfoPrice.setText("￥" + goodsBean.getCover_price());
+
+        //设置商品详情要加载的网页
+        loadWeb("http://mp.weixin.qq.com/s/Cf3DrW2lnlb-w4wYaxOEZg");
+    }
+
+    private void loadWeb(String url) {
+
+        webSettings = wbGoodInfoMore.getSettings();
+        //设置支出Js
+        webSettings.setJavaScriptEnabled(true);
+        //设置添加缩放屏幕按钮
+        webSettings.setBuiltInZoomControls(true);
+        //设置屏幕双击变化大小
+        webSettings.setUseWideViewPort(true);
+        //设置WebViewClient,若不设置，打开新链接时将调起系统自带浏览器
+        wbGoodInfoMore.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressbar.setVisibility(View.GONE);
+            }
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return true;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                //判断版本
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.loadUrl(request.getUrl().toString());
+                }
+
+                return true;
+            }
+        });
+
+        wbGoodInfoMore.loadUrl(url);
+
     }
 
     @OnClick({R.id.ib_good_info_back, R.id.ib_good_info_more, R.id.tv_good_info_callcenter, R.id.tv_good_info_collection, R.id.tv_good_info_cart, R.id.btn_good_info_addcart, R.id.tv_more_share, R.id.tv_more_search, R.id.tv_more_home, R.id.btn_more})

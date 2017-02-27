@@ -31,8 +31,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.iwgang.countdownview.CountdownView;
 import shoppingmall.home.activity.GoodsInfoActivity;
+import shoppingmall.home.activity.WebViewActivity;
 import shoppingmall.home.bean.GoodsBean;
 import shoppingmall.home.bean.HomeBean;
+import shoppingmall.home.bean.WebViewBean;
 import shoppingmall.home.utils.Constants;
 import shoppingmall.home.view.MyGridView;
 import shoppingmall.shoppingmall.R;
@@ -81,8 +83,8 @@ public class HomeAdapter extends RecyclerView.Adapter {
     public int currentType = BANNER;
 
 
-    public static final String KEY = "000";
-    public static final String INT = "666";
+    public static final String WEBVIEW_BEAN = "webview_bean";
+    public static final String GOODS_BEAN = "goods_bean";
 
     private final Context context;
     private final HomeBean.ResultBean result;
@@ -190,6 +192,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
 
     private class BannerViewHolder extends RecyclerView.ViewHolder {
+
         private final Context context;
         private Banner banner;
 
@@ -276,11 +279,43 @@ public class HomeAdapter extends RecyclerView.Adapter {
             banner.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(int position) {
-                    Intent intent = new Intent(context, GoodsInfoActivity.class);
-                    context.startActivity(intent);
-                    Toast.makeText(context, "这是第" + position, Toast.LENGTH_SHORT).show();
+
+                    int realPosition = position;
+                    if (realPosition < banner_info.size()) {
+                        String product_id = "";
+                        String name = "";
+                        String cover_price = "";
+                        String image = "";
+                        if (realPosition == 0) {
+                            product_id = "627";
+                            cover_price = "32.00";
+                            name = "剑三T恤批发";
+                        } else if (realPosition == 1) {
+                            product_id = "21";
+                            cover_price = "8.00";
+                            name = "同人原创】剑网3 剑侠情缘叁 Q版成男 口袋胸针";
+                        } else {
+                            product_id = "1341";
+                            cover_price = "50.00";
+                            name = "【蓝诺】《天下吾双》 剑网3同人本";
+                        }
+
+                        image = banner_info.get(position).getImage();
+
+                        GoodsBean goodsBean = new GoodsBean();
+                        goodsBean.setName(name);
+                        goodsBean.setCover_price(cover_price);
+                        goodsBean.setFigure(image);
+                        goodsBean.setProduct_id(product_id);
+
+                        Intent intent = new Intent(context, GoodsInfoActivity.class);
+                        intent.putExtra(GOODS_BEAN, goodsBean);
+                        context.startActivity(intent);
+                    }
+
                 }
             });
+
         }
     }
 
@@ -327,11 +362,12 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
         }
 
-        public void setData(List<HomeBean.ResultBean.ActInfoBean> act_info) {
+        public void setData(final List<HomeBean.ResultBean.ActInfoBean> act_info) {
             //设置viewPager适配器
             actAdapter = new ActAdapter(context, act_info);
 
 
+            //美化ViewPager库
             vpAct.setPageMargin(20);//设置page间间距，自行根据需求设置
             vpAct.setOffscreenPageLimit(3);//>=3
 //            vpAct.setAdapter...//写法不变
@@ -351,7 +387,18 @@ public class HomeAdapter extends RecyclerView.Adapter {
             actAdapter.setOnItemClickListener(new ActAdapter.onItemClickListener() {
                 @Override
                 public void onItemClickListener(View view, int position) {
-                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+                    HomeBean.ResultBean.ActInfoBean actInfoBean = act_info.get(position);
+
+                    WebViewBean webViewBean = new WebViewBean();
+                    //设置名称
+                    webViewBean.setName(actInfoBean.getName());
+                    webViewBean.setIcon_url(actInfoBean.getIcon_url());
+                    webViewBean.setUrl(actInfoBean.getUrl());
+
+                    Intent intent = new Intent(context, WebViewActivity.class);
+                    intent.putExtra(WEBVIEW_BEAN, webViewBean);
+                    context.startActivity(intent);
                 }
             });
         }
@@ -373,7 +420,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
             this.context = context;
         }
 
-        public void setData(HomeBean.ResultBean.SeckillInfoBean seckill_info) {
+        public void setData(final HomeBean.ResultBean.SeckillInfoBean seckill_info) {
 
             //设置适配器
             SeckillAdapter seckillAdapter = new SeckillAdapter(context, seckill_info);
@@ -386,8 +433,23 @@ public class HomeAdapter extends RecyclerView.Adapter {
             seckillAdapter.setOnItemClickListener(new SeckillAdapter.onItemClickListener() {
                 @Override
                 public void onItemClickListener(int position) {
-                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+
+                    HomeBean.ResultBean.SeckillInfoBean.ListBean seckillListBean = seckill_info.getList().get(position);
+
+                    GoodsBean goodsBean = new GoodsBean();
+                    goodsBean.setName(seckillListBean.getName());
+                    goodsBean.setProduct_id(seckillListBean.getProduct_id());
+                    goodsBean.setFigure(seckillListBean.getFigure());
+                    goodsBean.setCover_price(seckillListBean.getCover_price());
+
+                    Intent intent = new Intent(context, GoodsInfoActivity.class);
+                    intent.putExtra(GOODS_BEAN, goodsBean);
+                    context.startActivity(intent);
+
+
                 }
+
             });
 
             //设置秒杀器时间
@@ -430,7 +492,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
                     goodsBean.setFigure(recommendInfoBean.getFigure());
 
                     Intent intent = new Intent(context, GoodsInfoActivity.class);
-                    intent.putExtra(INT, goodsBean);
+                    intent.putExtra(GOODS_BEAN, goodsBean);
                     context.startActivity(intent);
                 }
             });
@@ -451,17 +513,28 @@ public class HomeAdapter extends RecyclerView.Adapter {
             this.context = context;
         }
 
-        public void setData(List<HomeBean.ResultBean.HotInfoBean> hot_info) {
+        public void setData(final List<HomeBean.ResultBean.HotInfoBean> hot_info) {
             HotAdapter hotAdapter = new HotAdapter(context, hot_info);
             gvHot.setAdapter(hotAdapter);
 
             gvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+
+                    HomeBean.ResultBean.HotInfoBean hotInfoBean = hot_info.get(position);
+
+                    GoodsBean goodsBean = new GoodsBean();
+                    goodsBean.setCover_price(hotInfoBean.getCover_price());
+                    goodsBean.setFigure(hotInfoBean.getFigure());
+                    goodsBean.setProduct_id(hotInfoBean.getProduct_id());
+                    goodsBean.setName(hotInfoBean.getName());
+
+                    Intent intent = new Intent(context, GoodsInfoActivity.class);
+                    intent.putExtra(GOODS_BEAN, goodsBean);
+                    context.startActivity(intent);
                 }
             });
         }
     }
-
 }
