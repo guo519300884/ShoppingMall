@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import shoppingmall.cart.utils.CartStorage;
 import shoppingmall.home.adapter.HomeAdapter;
 import shoppingmall.home.bean.GoodsBean;
 import shoppingmall.home.utils.Constants;
@@ -77,20 +78,6 @@ public class GoodsInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_goods_info);
         ButterKnife.inject(this);
         getData();
-
-      /*  bindService(new Intent(),new ServiceConnection(){
-
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-
-            }
-        },BIND_AUTO_CREATE);*/
-
     }
 
     private void getData() {
@@ -112,7 +99,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
         //设置价格
         tvGoodInfoPrice.setText("￥" + goodsBean.getCover_price());
 
-        //设置商品详情要加载的网页
+        //设置商品详情要加载的网页  实际工作是需要她动态传入
         loadWeb("http://mp.weixin.qq.com/s/Cf3DrW2lnlb-w4wYaxOEZg");
     }
 
@@ -132,7 +119,6 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
                 progressbar.setVisibility(View.GONE);
             }
-
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -178,7 +164,8 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_good_info_addcart:
-                Toast.makeText(this, "加入购物车", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "加入购物车", Toast.LENGTH_SHORT).show();
+                CartStorage.getInstance(this).addData(goodsBean);
                 break;
             case R.id.tv_more_share:
                 Toast.makeText(this, "分享", Toast.LENGTH_SHORT).show();
