@@ -1,6 +1,8 @@
 package shoppingmall.cart.fragment;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -9,10 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import shoppingmall.base.BaseFragment;
+import shoppingmall.cart.adapter.CartAdapter;
+import shoppingmall.cart.utils.CartStorage;
+import shoppingmall.home.bean.GoodsBean;
 import shoppingmall.shoppingmall.R;
 
 /**
@@ -46,8 +53,9 @@ public class CartFragment extends BaseFragment {
     TextView tvEmptyCartTobuy;
     @InjectView(R.id.ll_empty_shopcart)
     LinearLayout llEmptyShopcart;
+
     private View view;
-    private TextView textView;
+    private CartAdapter adapter;
 
     @Override
     public View initView() {
@@ -59,13 +67,32 @@ public class CartFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-    }
+        //获取到购物车里的所有数据
+        List<GoodsBean> list = CartStorage.getInstance(context).getAllData();
 
+        if (list != null && list.size() > 0) {
+            //表示购物车内有数据
+            llEmptyShopcart.setVisibility(View.GONE);
+            //设置适配器
+            adapter = new CartAdapter(context, list);
+            recyclerview.setAdapter(adapter);
+            //设置布局管理器
+            recyclerview.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+            //设置点击事件
+
+        } else {//表示购物车内没有数据
+            llEmptyShopcart.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-
+        if (!hidden) {
+            for (int i = 0; i < CartStorage.getInstance(context).getAllData().size(); i++) {
+                Log.e("TAG", "" + CartStorage.getInstance(context).getAllData().get(i).toString());
+            }
+        }
     }
 
     @Override
