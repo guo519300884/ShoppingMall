@@ -25,10 +25,39 @@ import shoppingmall.shoppingmall.R;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> {
     private final Context context;
     private final List<GoodsBean> datas;
+    private final TextView tvShopcartTotal;
+    private final CheckBox checkboxDeleteAll;
+    private final CheckBox checkboxAll;
 
-    public CartAdapter(Context context, List<GoodsBean> list) {
+    public CartAdapter(Context context, List<GoodsBean> list, TextView tvShopcartTotal, CheckBox checkboxAll, CheckBox checkboxDeleteAll) {
         this.context = context;
         this.datas = list;
+        this.tvShopcartTotal = tvShopcartTotal;
+        this.checkboxAll = checkboxAll;
+        this.checkboxDeleteAll = checkboxDeleteAll;
+
+        showTotalPrice();
+    }
+
+    private void showTotalPrice() {
+        //显示合计价格
+        tvShopcartTotal.setText("合计：" + getTotalPrice());
+    }
+
+    //返回的是总价格
+    public double getTotalPrice() {
+
+        double totalPrice = 0;
+
+        if (datas != null && datas.size() > 0) {
+            for (int i = 0; i < datas.size(); i++) {
+                GoodsBean goodsBean = datas.get(i);
+                if (goodsBean.isChecked()) {
+                    totalPrice += Double.parseDouble(goodsBean.getCover_price()) * goodsBean.getNumber();
+                }
+            }
+        }
+        return totalPrice;
     }
 
     @Override
@@ -60,6 +89,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         GoodsBean goodsBean = datas.get(position);
 
         //绑定数据
+
+
+        holder.cbGov.setChecked(goodsBean.isChecked());
         //图片
         Glide.with(context)
                 .load(Constants.BASE_URL_IMAGE + goodsBean.getFigure())
@@ -71,13 +103,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         //设置数量
         holder.addSubView.setValue(goodsBean.getNumber());
 
-        holder.addSubView.setMinValue(1);
+//        holder.addSubView.setMinValue(1);
 
         //设置库存  实际情况库存量来源于服务器
         holder.addSubView.setMaxValue(100);
 
 
     }
+
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
