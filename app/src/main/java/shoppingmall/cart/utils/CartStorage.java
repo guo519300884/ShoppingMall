@@ -164,4 +164,15 @@ public class CartStorage {
         }
         return goodsBeanList;
     }
+
+    /**
+     * 是否在购物车中存在
+     *
+     * @param product_id
+     * @return
+     */
+    public GoodsBean findDete(String product_id) {
+        return sparseArray.get(Integer.parseInt(product_id));
+
+    }
 }

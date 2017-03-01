@@ -23,7 +23,7 @@ public class AddSubView extends LinearLayout {
 
     private int value = 1;
     private int minValue = 1;
-    private int maxValue = 7;
+    private int maxValue = 10;
 
     public int getMaxValue() {
         return maxValue;
