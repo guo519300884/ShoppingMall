@@ -226,7 +226,7 @@ public class CartFragment extends BaseFragment {
                 adapter.showTotalPrice();
                 break;
             case R.id.btn_check_out:
-                Toast.makeText(context, "结算", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "结算", Toast.LENGTH_SHORT).show();
                 pay();
                 break;
             case R.id.checkbox_delete_all:
@@ -255,6 +255,8 @@ public class CartFragment extends BaseFragment {
                 //跳转到主页
 //                Intent intent = new Intent(context, MainActivity.class);
 //                intent.putExtra("checkId", R.id.rb_home);
+//                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), MainActivity.class);
 //                startActivity(intent);
                 break;
         }

@@ -481,7 +481,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
             gvRecommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "嘿嘿嘿" + position, Toast.LENGTH_SHORT).show();
 
                     HomeBean.ResultBean.RecommendInfoBean recommendInfoBean = recommend_info.get(position);
                     //传递数据
