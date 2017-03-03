@@ -63,7 +63,8 @@ public class CartStorage {
         //从本地获取数据
 
         //获取到本地保存的JSON数据  sp中取得数据
-        String json = CacheUtils.getString(context, GJW);
+        String json;
+        json = CacheUtils.getString(context, GJW);
         if (!TextUtils.isEmpty(json)) {
             //将json数据转换为列表
             goodsBeens = new Gson().fromJson(json, new TypeToken<List<GoodsBean>>() {

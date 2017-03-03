@@ -3,6 +3,7 @@ package shoppingmall.cart.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
@@ -16,9 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.alipay.sdk.app.PayTask;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -26,10 +25,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import shoppingmall.activity.MainActivity;
 import shoppingmall.base.BaseFragment;
 import shoppingmall.cart.adapter.CartAdapter;
 import shoppingmall.cart.utils.CartStorage;
@@ -253,11 +252,9 @@ public class CartFragment extends BaseFragment {
             case R.id.tv_empty_cart_tobuy:
                 Toast.makeText(context, "去逛", Toast.LENGTH_SHORT).show();
                 //跳转到主页
-//                Intent intent = new Intent(context, MainActivity.class);
-//                intent.putExtra("checkId", R.id.rb_home);
-//                startActivity(intent);
-//                Intent intent = new Intent(getActivity(), MainActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("checkId", R.id.rb_home);
+                startActivity(intent);
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package shoppingmall.community.fragment;
+package shoppingmall.type.fragment;
 
 import android.graphics.Color;
 import android.util.Log;
@@ -9,16 +9,17 @@ import android.widget.TextView;
 import shoppingmall.base.BaseFragment;
 
 /**
- * Created by 皇 上 on 2017/2/22.
+ * Created by 皇 上 on 2017/3/3.
  */
 
-public class CommunityFragment extends BaseFragment {
+public class ListFragment extends BaseFragment {
+
     private View view;
     private TextView textView;
 
     @Override
     public View initView() {
-//        view = View.inflate(context, R.layout.,null);
+//        view = View.inflate(context, R.layout.fragment_list,null);
         textView = new TextView(context);
         textView.setTextColor(Color.GREEN);
         textView.setTextSize(30);
@@ -29,7 +30,7 @@ public class CommunityFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        Log.e("TAG", "HomeFragment initData() + 333333333333");
-        textView.setText("发现");
+        Log.e("TAG", "HomeFragment initData() + 55555555555555555");
+        textView.setText("分类");
     }
 }
