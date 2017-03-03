@@ -40,16 +40,21 @@ public class TypeFragment extends BaseFragment {
     public View initView() {
         view = View.inflate(context, R.layout.fragment_type, null);
         ButterKnife.inject(this, view);
-
-        initFragment();
-
-
         return view;
     }
 
     @Override
     public void initData() {
         super.initData();
+        //初始化Fragment
+        initFragment();
+        //点击监听
+        initListener();
+        //默认选择分类模式
+        switchFragement(fragments.get(0));
+    }
+
+    private void initListener() {
         tl1.setTabData(titles);
         tl1.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
