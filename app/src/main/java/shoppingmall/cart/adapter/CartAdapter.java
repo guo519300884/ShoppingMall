@@ -18,7 +18,7 @@ import butterknife.InjectView;
 import shoppingmall.cart.utils.CartStorage;
 import shoppingmall.cart.view.AddSubView;
 import shoppingmall.home.bean.GoodsBean;
-import shoppingmall.home.utils.Constants;
+import shoppingmall.utils.Constants;
 import shoppingmall.shoppingmall.R;
 
 /**

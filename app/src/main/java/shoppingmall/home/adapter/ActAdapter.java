@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import shoppingmall.home.bean.HomeBean;
-import shoppingmall.home.utils.Constants;
+import shoppingmall.utils.Constants;
 
 /**
  * Created by 皇 上 on 2017/2/23.

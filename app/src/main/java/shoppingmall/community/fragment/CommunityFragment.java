@@ -1,9 +1,16 @@
 package shoppingmall.community.fragment;
 
+import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -24,8 +31,12 @@ public class CommunityFragment extends BaseFragment {
     ImageButton ibCommunityMessage;
     @InjectView(R.id.view_pager)
     ViewPager viewPager;
+    @InjectView(R.id.tablayout)
+    TabLayout tablayout;
+
     private View view;
     private CommunityAdapter adapter;
+    private List<BaseFragment> fragments;
 
     @Override
     public View initView() {
@@ -38,8 +49,20 @@ public class CommunityFragment extends BaseFragment {
     public void initData() {
         super.initData();
 
-        adapter = new CommunityAdapter(getFragmentManager());
+        initFragment();
+
+        //设置适配器
+        adapter = new CommunityAdapter(getFragmentManager(), fragments);
         viewPager.setAdapter(adapter);
+        //绑定ViewPager
+        tablayout.setupWithViewPager(viewPager);
+        tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+    }
+
+    private void initFragment() {
+        fragments = new ArrayList<>();
+        fragments.add(new HotPostFragment());
+        fragments.add(new NewPostFragment());
     }
 
     @Override
@@ -58,5 +81,13 @@ public class CommunityFragment extends BaseFragment {
                 Toast.makeText(context, "消息", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.inject(this, rootView);
+        return rootView;
     }
 }

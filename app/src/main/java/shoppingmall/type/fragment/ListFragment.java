@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import okhttp3.Call;
 import shoppingmall.base.BaseFragment;
-import shoppingmall.home.utils.Constants;
+import shoppingmall.utils.Constants;
 import shoppingmall.shoppingmall.R;
 import shoppingmall.type.adapter.TypeLeftAdapter;
 import shoppingmall.type.adapter.TypeRightAdapter;

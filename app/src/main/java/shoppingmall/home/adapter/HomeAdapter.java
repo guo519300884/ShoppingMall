@@ -35,7 +35,7 @@ import shoppingmall.home.activity.WebViewActivity;
 import shoppingmall.home.bean.GoodsBean;
 import shoppingmall.home.bean.HomeBean;
 import shoppingmall.home.bean.WebViewBean;
-import shoppingmall.home.utils.Constants;
+import shoppingmall.utils.Constants;
 import shoppingmall.home.view.MyGridView;
 import shoppingmall.shoppingmall.R;
 

@@ -23,7 +23,7 @@ import butterknife.InjectView;
 import shoppingmall.home.activity.GoodsInfoActivity;
 import shoppingmall.home.adapter.HomeAdapter;
 import shoppingmall.home.bean.GoodsBean;
-import shoppingmall.home.utils.Constants;
+import shoppingmall.utils.Constants;
 import shoppingmall.shoppingmall.R;
 import shoppingmall.type.bean.TypeBean;
 import shoppingmall.utils.DensityUtil;

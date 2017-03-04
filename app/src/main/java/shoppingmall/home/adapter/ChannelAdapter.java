@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import shoppingmall.home.bean.HomeBean;
-import shoppingmall.home.utils.Constants;
+import shoppingmall.utils.Constants;
 import shoppingmall.shoppingmall.R;
 
 /**

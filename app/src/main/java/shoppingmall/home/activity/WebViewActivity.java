@@ -27,7 +27,7 @@ import shoppingmall.home.adapter.HomeAdapter;
 import shoppingmall.home.bean.GoodsBean;
 import shoppingmall.home.bean.H5Bean;
 import shoppingmall.home.bean.WebViewBean;
-import shoppingmall.home.utils.Constants;
+import shoppingmall.utils.Constants;
 import shoppingmall.shoppingmall.R;
 
 import static shoppingmall.home.adapter.HomeAdapter.GOODS_BEAN;
