@@ -13,10 +13,10 @@ public class Constants {
 //    老师服务器
 //    public static String BASE_URL = "http://192.168.1.36:8080/atguigu";
 //    我自己服务器
-//    public static String BASE_URL = "http://192.168.1.63:8080/atguigu";
+    public static String BASE_URL = "http://192.168.1.63:8080/atguigu";
 
     //    网络
-    public static String BASE_URL = "http://182.92.5.3:8081/android/resources";
+//    public static String BASE_URL = "http://182.92.5.3:8081/android/resources";
 
 
     private static final String BASE_URL_JSON = BASE_URL + "/json/";

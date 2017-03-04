@@ -1,11 +1,8 @@
 package shoppingmall.community.fragment;
 
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -61,14 +58,8 @@ public class CommunityFragment extends BaseFragment {
 
     private void initFragment() {
         fragments = new ArrayList<>();
-        fragments.add(new HotPostFragment());
         fragments.add(new NewPostFragment());
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
+        fragments.add(new HotPostFragment());
     }
 
     @OnClick({R.id.ib_community_icon, R.id.ib_community_message})
@@ -84,10 +75,8 @@ public class CommunityFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.inject(this, rootView);
-        return rootView;
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }
