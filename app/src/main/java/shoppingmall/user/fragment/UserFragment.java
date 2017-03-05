@@ -1,5 +1,6 @@
 package shoppingmall.user.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -12,8 +13,10 @@ import com.hankkin.gradationscroll.GradationScrollView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import shoppingmall.base.BaseFragment;
 import shoppingmall.shoppingmall.R;
+import shoppingmall.user.activity.LoginActivity;
 
 /**
  * Created by 皇 上 on 2017/2/22.
@@ -118,5 +121,11 @@ public class UserFragment extends BaseFragment implements GradationScrollView.Sc
             //滑动到banner下面设置普通颜色 - 非透明
             tvUsercenter.setBackgroundColor(Color.argb((int) 255, 255, 0, 0));
         }
+    }
+
+    @OnClick(R.id.tv_username)
+    public void onClick() {
+        Intent intent = new Intent(context, LoginActivity.class);
+        startActivity(intent);
     }
 }
