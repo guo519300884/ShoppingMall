@@ -68,11 +68,10 @@ public class HotPostFragment extends BaseFragment {
         hotPostBean = JSON.parseObject(response, HotPostBean.class);
         hotPostBeanResult = hotPostBean.getResult();
 
-        hotPostAdapter = new HotPostAdapter(context, hotPostBeanResult);
-        lvHotPost.setAdapter(hotPostAdapter);
-
-
-
+        if (hotPostBeanResult != null && hotPostBeanResult.size() > 0) {
+            hotPostAdapter = new HotPostAdapter(context, hotPostBeanResult);
+            lvHotPost.setAdapter(hotPostAdapter);
+        }
     }
 
     @Override

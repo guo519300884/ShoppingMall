@@ -68,8 +68,10 @@ public class NewPostFragment extends BaseFragment {
         newPostBean = JSON.parseObject(response, NewPostBean.class);
         newPostBeanResult = newPostBean.getResult();
 
-        newPostAdapter = new NewPostAdapter(context, newPostBeanResult);
-        lvNewPost.setAdapter(newPostAdapter);
+        if (newPostBeanResult != null && newPostBeanResult.size() > 0) {
+            newPostAdapter = new NewPostAdapter(context, newPostBeanResult);
+            lvNewPost.setAdapter(newPostAdapter);
+        }
 
     }
 
