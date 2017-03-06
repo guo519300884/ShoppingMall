@@ -1,6 +1,7 @@
 package shoppingmall.home.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -67,6 +68,7 @@ public class GoodsListActivity extends AppCompatActivity {
     private TypeListBean typeListBean;
     private GoosListAdapter goosListAdapter;
     private List<TypeListBean.ResultBean.PageDataBean> data;
+    private int click_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,16 @@ public class GoodsListActivity extends AppCompatActivity {
     private void getData() {
         position = getIntent().getIntExtra("position", 0);
         getDataFromNet(urls[position]);
+        //默认综合排序
+        initView();
+    }
+
+    private void initView() {
+        //设置高亮显示
+        tvGoodsListSort.setTextColor(Color.parseColor("#ed4141"));
+        //设置价格 & 筛选为默认
+        tvGoodsListPrice.setTextColor(Color.parseColor("#333538"));
+        tvGoodsListSelect.setTextColor(Color.parseColor("#333538"));
     }
 
     private void getDataFromNet(String url) {
@@ -145,13 +157,33 @@ public class GoodsListActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.tv_goods_list_sort:
-                Toast.makeText(this, "综合排序", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "综合排序", Toast.LENGTH_SHORT).show();
+                ivGoodsListArrow.setBackgroundResource(R.drawable.new_price_sort_normal);
+                initView();
                 break;
             case R.id.tv_goods_list_price:
-                Toast.makeText(this, "价格", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "价格", Toast.LENGTH_SHORT).show();
+                //设置高亮显示
+                tvGoodsListPrice.setTextColor(Color.parseColor("#ed4141"));
+                //设置价格 & 筛选为默认
+                tvGoodsListSort.setTextColor(Color.parseColor("#333538"));
+                tvGoodsListSelect.setTextColor(Color.parseColor("#333538"));
+
+                click_count++;
+                if (click_count % 2 == 1) {
+                    ivGoodsListArrow.setBackgroundResource(R.drawable.new_price_sort_desc);
+                } else {
+                    ivGoodsListArrow.setBackgroundResource(R.drawable.new_price_sort_asc);
+                }
+
                 break;
             case R.id.tv_goods_list_select:
-                Toast.makeText(this, "筛选", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "筛选", Toast.LENGTH_SHORT).show();
+                //设置高亮显示
+                tvGoodsListSelect.setTextColor(Color.parseColor("#ed4141"));
+                //设置价格 & 筛选为默认
+                tvGoodsListSort.setTextColor(Color.parseColor("#333538"));
+                tvGoodsListPrice.setTextColor(Color.parseColor("#333538"));
                 break;
         }
     }
