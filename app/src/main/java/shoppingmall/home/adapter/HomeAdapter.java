@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
@@ -31,13 +30,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import cn.iwgang.countdownview.CountdownView;
 import shoppingmall.home.activity.GoodsInfoActivity;
+import shoppingmall.home.activity.GoodsListActivity;
 import shoppingmall.home.activity.WebViewActivity;
 import shoppingmall.home.bean.GoodsBean;
 import shoppingmall.home.bean.HomeBean;
 import shoppingmall.home.bean.WebViewBean;
-import shoppingmall.utils.Constants;
 import shoppingmall.home.view.MyGridView;
 import shoppingmall.shoppingmall.R;
+import shoppingmall.utils.Constants;
 
 /**
  * Created by 皇 上 on 2017/2/23.
@@ -342,7 +342,12 @@ public class HomeAdapter extends RecyclerView.Adapter {
             gvChannel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(context, "点我我就是：" + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "点我我就是：" + position, Toast.LENGTH_SHORT).show();
+                    if (position < 9) {
+                        Intent intent = new Intent(context, GoodsListActivity.class);
+                        intent.putExtra("position", position);
+                        context.startActivity(intent);
+                    }
                 }
             });
         }

@@ -255,7 +255,7 @@ public class CartFragment extends BaseFragment {
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("checkId", R.id.rb_home);
                 startActivity(intent);
-                break;
+            break;
         }
     }
 

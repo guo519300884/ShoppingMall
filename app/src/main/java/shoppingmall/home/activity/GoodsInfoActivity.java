@@ -29,12 +29,13 @@ import com.bumptech.glide.Glide;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import shoppingmall.activity.MainActivity;
 import shoppingmall.cart.utils.CartStorage;
 import shoppingmall.cart.view.AddSubView;
 import shoppingmall.home.adapter.HomeAdapter;
 import shoppingmall.home.bean.GoodsBean;
-import shoppingmall.utils.Constants;
 import shoppingmall.shoppingmall.R;
+import shoppingmall.utils.Constants;
 import shoppingmall.utils.VirtualkeyboardHeight;
 
 public class GoodsInfoActivity extends AppCompatActivity {
@@ -173,7 +174,11 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 Toast.makeText(this, "收藏", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_good_info_cart:
-                Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "购物车", Toast.LENGTH_SHORT).show();
+                //跳转到购物车
+                Intent intentCart = new Intent(this, MainActivity.class);
+                intentCart.putExtra("checkId", R.id.rb_cart);
+                startActivity(intentCart);
                 break;
             case R.id.btn_good_info_addcart:
 //                Toast.makeText(this, "加入购物车", Toast.LENGTH_SHORT).show();
