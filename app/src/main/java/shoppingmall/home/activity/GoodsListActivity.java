@@ -1,5 +1,6 @@
 package shoppingmall.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,10 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import okhttp3.Call;
 import shoppingmall.home.adapter.GoosListAdapter;
+import shoppingmall.home.adapter.HomeAdapter;
+import shoppingmall.home.bean.GoodsBean;
 import shoppingmall.home.bean.TypeListBean;
+import shoppingmall.home.view.SpaceItemDecoration;
 import shoppingmall.shoppingmall.R;
 import shoppingmall.utils.Constants;
 
@@ -98,11 +102,33 @@ public class GoodsListActivity extends AppCompatActivity {
     private void processData(String response) {
         typeListBean = JSON.parseObject(response, TypeListBean.class);
         data = typeListBean.getResult().getPage_data();
-        //设置适配器
-        goosListAdapter = new GoosListAdapter(this, data);
-        recyclerview.setAdapter(goosListAdapter);
-        //设置布局管理器  2列
-        recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
+
+        if (data != null && data.size() > 0) {
+            //设置适配器
+            goosListAdapter = new GoosListAdapter(this, data);
+            recyclerview.setAdapter(goosListAdapter);
+            //设置布局管理器  2列
+            recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
+            //设置间距
+            recyclerview.addItemDecoration(new SpaceItemDecoration(10));
+
+            goosListAdapter.setOnItemClickListener(new GoosListAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(TypeListBean.ResultBean.PageDataBean datas) {
+
+                    GoodsBean goodsBean = new GoodsBean();
+
+                    goodsBean.setProduct_id(datas.getProduct_id());
+                    goodsBean.setFigure(datas.getFigure());
+                    goodsBean.setCover_price(datas.getCover_price());
+                    goodsBean.setName(datas.getName());
+
+                    Intent intent = new Intent(GoodsListActivity.this, GoodsInfoActivity.class);
+                    intent.putExtra(HomeAdapter.GOODS_BEAN, goodsBean);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @OnClick({R.id.ib_goods_list_back, R.id.tv_goods_list_search, R.id.ib_goods_list_home, R.id.tv_goods_list_sort, R.id.tv_goods_list_price, R.id.tv_goods_list_select})

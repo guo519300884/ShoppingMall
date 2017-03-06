@@ -46,7 +46,7 @@ public class GoosListAdapter extends RecyclerView.Adapter<GoosListAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+        //根据位置获取到相应的数据
         TypeListBean.ResultBean.PageDataBean pageDataBean = data.get(position);
 
         //获取图片
@@ -57,7 +57,8 @@ public class GoosListAdapter extends RecyclerView.Adapter<GoosListAdapter.MyView
         //设置名称
         holder.tvName.setText(pageDataBean.getName());
         //设置价格
-        holder.tvPrice.setText(pageDataBean.getCover_price());
+        holder.tvPrice.setText("￥" + pageDataBean.getCover_price());
+
 
     }
 
@@ -74,6 +75,27 @@ public class GoosListAdapter extends RecyclerView.Adapter<GoosListAdapter.MyView
         MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.inject(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onItemClick(data.get(getLayoutPosition()));
+                    }
+                }
+            });
         }
+    }
+
+
+    //定义一个接口
+    public interface OnItemClickListener {
+        void onItemClick(TypeListBean.ResultBean.PageDataBean datas);
+    }
+
+    private OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }
