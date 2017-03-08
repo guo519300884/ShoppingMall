@@ -2,6 +2,7 @@ package shoppingmall.home.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import shoppingmall.activity.MainActivity;
+import shoppingmall.activity.QRActivity;
 import shoppingmall.cart.utils.CartStorage;
 import shoppingmall.cart.view.AddSubView;
 import shoppingmall.home.adapter.HomeAdapter;
@@ -80,8 +82,10 @@ public class GoodsInfoActivity extends AppCompatActivity {
     Button btnMore;
     @InjectView(R.id.ll_root)
     LinearLayout llRoot;
+
     private GoodsBean goodsBean;
     private WebSettings webSettings;
+    private Bitmap mBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +99,6 @@ public class GoodsInfoActivity extends AppCompatActivity {
         goodsBean = (GoodsBean) getIntent().getSerializableExtra(HomeAdapter.GOODS_BEAN);
 
         setData();
-//        if (goodsBean != null) {
-//            Toast.makeText(this, "嘿嘿嘿" + goodsBean.toString(), Toast.LENGTH_SHORT).show();
-//        }
     }
 
     private void setData() {
@@ -110,7 +111,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
         //设置价格
         tvGoodInfoPrice.setText("￥" + goodsBean.getCover_price());
 
-        //设置商品详情要加载的网页  实际工作是需要她动态传入
+        //设置商品详情要加载的网页  实际工作是需要动态传入
         loadWeb("http://mp.weixin.qq.com/s/Cf3DrW2lnlb-w4wYaxOEZg");
     }
 
@@ -166,7 +167,7 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 Toast.makeText(this, "更多", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_good_info_callcenter:
-                Toast.makeText(this, "客服中心", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "客服中心", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, CallCenterActivity.class);
                 startActivity(intent);
                 break;
@@ -186,20 +187,27 @@ public class GoodsInfoActivity extends AppCompatActivity {
                 showPopwindow();
                 break;
             case R.id.tv_more_share:
-                Toast.makeText(this, "分享", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "分享", Toast.LENGTH_SHORT).show();
+
+                Intent intent2 = new Intent(this, QRActivity.class);
+                intent2.putExtra(HomeAdapter.GOODS_BEAN, goodsBean);
+                startActivity(intent2);
                 break;
             case R.id.tv_more_search:
                 Toast.makeText(this, "搜索", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_more_home:
-                Toast.makeText(this, "回到首页", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "回到首页", Toast.LENGTH_SHORT).show();
+
+                Intent intent1 = new Intent(this, MainActivity.class);
+                intent1.putExtra("checkId", R.id.rb_home);
+                startActivity(intent1);
                 break;
             case R.id.btn_more:
                 llRoot.setVisibility(View.GONE);
                 break;
         }
     }
-
 
     /**
      * 显示popupWindow

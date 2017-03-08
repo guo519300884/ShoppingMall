@@ -14,12 +14,17 @@ public class Constants {
 //    public static String BASE_URL = "http://192.168.1.36:8080/atguigu";
 
     //我自己服务器（学校）
-    public static String BASE_URL = "http://192.168.1.63:8080/atguigu";
+//    public static String BASE_URL = "http://192.168.1.63:8080/atguigu";
 //    自己服务器（家里）
 //    public static String BASE_URL = "http://192.168.0.10:8080/atguigu";
 
     //    网络
 //    public static String BASE_URL = "http://182.92.5.3:8081/android/resources";
+    public static String BASE_URL = "http://47.93.118.241:8081/android/resources";
+
+    //新闻网络地址
+    //    public static String BASE_URL = "http://47.93.118.241/web_home/static/api/news/categories.json";
+
 
 
     private static final String BASE_URL_JSON = BASE_URL + "/json/";
